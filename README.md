@@ -79,6 +79,21 @@ cd ../<repo>-review
 claude
 ```
 
+## Related skills and templates
+
+If your coding agent supports aweb skills (for example through `@awebai/pi`), load these when useful:
+
+- `aweb-bootstrap` — choose the right team source, work-directory/work-repo-url shape, worktree-agent policy, and rerun safety.
+- `aweb-coordination` — day-to-day work loop, claims, handoffs, and shared state.
+- `aweb-messaging` — mail/chat response policy and wake-up events.
+- `aweb-team-membership` — invites, active team, certificates, hosted vs BYOT, and addressability.
+- `aweb-identity` — identity, custody, `did:key`/`did:aw`, key rotation, and inbound mode.
+
+Other maintained templates:
+
+- [`aweb-team-dev-review`](https://github.com/awebai/aweb-team-dev-review) — minimal developer + reviewer pair.
+- [`aweb-team-company-surfaces`](https://github.com/awebai/aweb-team-company-surfaces) — six persistent company-surface agents plus developer worktrees.
+
 ## Team model
 
 The coordinator is the stable, long-lived team surface for intake and routing. The developer and reviewer are local worktree agents for code changes. Code edits should happen in `worktrees/<repo>-dev/`; independent review should happen from `worktrees/<repo>-review/`.

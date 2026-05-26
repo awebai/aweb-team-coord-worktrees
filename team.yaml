@@ -1,0 +1,25 @@
+name: coordinator-with-dev-review-worktrees
+instructions:
+  file: docs/team.md
+roles:
+  coordinator:
+    title: Coordinator
+    file: roles/coordinator.md
+  developer:
+    title: Developer
+    file: roles/developer.md
+  reviewer:
+    title: Reviewer
+    file: roles/reviewer.md
+agents:
+  coordinator:
+    role_name: coordinator
+    default_name: coordinator
+    default_alias: coord
+worktrees:
+  - name: developer
+    role_name: developer
+    alias: dev
+  - name: reviewer
+    role_name: reviewer
+    alias: review

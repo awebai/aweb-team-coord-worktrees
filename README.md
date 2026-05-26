@@ -28,7 +28,6 @@ This template declares `worktrees:` in `team.yaml`, so the work directory must b
 
 ```bash
 aw team bootstrap https://github.com/awebai/aweb-team-coord-worktrees.git \
-  --yes \
   --username <username> \
   --work-repo-url https://github.com/<org>/<repo>.git
 ```
@@ -37,13 +36,12 @@ aw team bootstrap https://github.com/awebai/aweb-team-coord-worktrees.git \
 
 ```bash
 aw team bootstrap https://github.com/awebai/aweb-team-coord-worktrees.git \
-  --yes \
   --username <username> \
   --work-directory /path/to/your/repo
 ```
 
-If you want hosted onboarding prompts, omit `--yes` and `--username`.
-If you use `--yes`, provide an explicit team source such as `--username`, `AWEB_API_KEY`, `--invite-token`, or `--namespace`/`--team`.
+If you want hosted onboarding prompts, omit `--username`.
+Default agent names from `team.yaml` are used automatically; pass `--ask-for-agent-names` only when you want to rename them interactively.
 
 After bootstrap you should have:
 
@@ -134,7 +132,6 @@ Bring Your Own Team (BYOT, including your own namespace/domain controller):
 
 ```bash
 aw team bootstrap https://github.com/awebai/aweb-team-coord-worktrees.git \
-  --yes \
   --aweb-url http://localhost:8000 \
   --registry http://localhost:8010 \
   --namespace example.com \

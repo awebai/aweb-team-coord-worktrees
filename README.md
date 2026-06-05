@@ -46,6 +46,9 @@ aw team bootstrap https://github.com/awebai/aweb-team-coord-worktrees.git \
 ```
 
 Do not combine `--agents-dir` with legacy work flags.
+Legacy mode is for old scripts and does not use this template's project-local `agents/home/` plus `agents/worktrees/` layout.
+
+### Default in-repo output
 
 After bootstrap you should have:
 

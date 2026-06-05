@@ -1,10 +1,10 @@
-# Aweb team template: coordinator + developer/reviewer worktrees
+# Aweb team template: coordinator + developer/reviewer
 
-A minimal Aweb team template with one long-lived coordinator workspace and two repo-isolated worktree agents:
+A minimal Aweb team template with one long-lived coordinator and two repo-isolated coding agents:
 
-- `coord` — coordinator role, persistent responsibility workspace under `agents/coordinator/`
-- `dev` — developer role, generated git worktree under `worktrees/<repo>-dev/`
-- `review` — reviewer role, generated git worktree under `worktrees/<repo>-review/`
+- `coord` — coordinator role, home under `agents/home/coordinator/`, work points at the project repo root
+- `dev` — developer role, home under `agents/home/developer/`, work points at `agents/worktrees/dev/`
+- `review` — reviewer role, home under `agents/home/reviewer/`, work points at `agents/worktrees/review/`
 
 This template is meant to be used with the `aw` CLI.
 
@@ -17,22 +17,27 @@ aw version
 
 ## Bootstrap
 
-Run from a directory that is **not already inside a git repo/worktree**. For remote templates, `aw team bootstrap` refuses to clone into an existing git worktree unless you pass `--template-cache-dir`.
+Run from the root of the work repo where the agents should operate:
 
-This template declares `worktrees:` in `team.yaml`, so the work directory must be a git repo. Pass exactly one of:
+```bash
+cd /path/to/your/project
+aw team bootstrap https://github.com/awebai/aweb-team-coord-worktrees.git \
+  --username <username>
+```
 
-- `--work-directory <path>` — use an existing local git repo
-- `--work-repo-url <url-or-local-path>` — clone a repo into `./worktrees/<derived-name>/` inside the template checkout
-
-### Recommended: clone the work repo into worktrees/
+Bootstrap creates an `agents/` directory inside the project repo. If `agents/` already exists, bootstrap fails before any side effects. Choose another name only when your repo already uses `agents/` for something else:
 
 ```bash
 aw team bootstrap https://github.com/awebai/aweb-team-coord-worktrees.git \
   --username <username> \
-  --work-repo-url https://github.com/<org>/<repo>.git
+  --agents-dir aweb-agents
 ```
 
-### Alternative: use an existing local work repo
+If you want hosted onboarding prompts, omit `--username`. Default agent names from `team.yaml` are used automatically; pass `--ask-for-agent-names` only when you want to rename them interactively.
+
+### Legacy compatibility
+
+The old out-of-repo bootstrap mode still exists for compatibility. It is selected only when you pass `--work-directory` or `--work-repo-url`:
 
 ```bash
 aw team bootstrap https://github.com/awebai/aweb-team-coord-worktrees.git \
@@ -40,40 +45,50 @@ aw team bootstrap https://github.com/awebai/aweb-team-coord-worktrees.git \
   --work-directory /path/to/your/repo
 ```
 
-If you want hosted onboarding prompts, omit `--username`.
-Default agent names from `team.yaml` are used automatically; pass `--ask-for-agent-names` only when you want to rename them interactively.
+Do not combine `--agents-dir` with legacy work flags.
 
 After bootstrap you should have:
 
 ```text
-aweb-team-coord-worktrees/
+your-project/
 ├─ agents/
-│  └─ coordinator/          # long-lived coordinator workspace
-│     ├─ .aw/
-│     ├─ AGENTS.md
-│     └─ work -> ../worktrees/<repo>/ or /path/to/your/repo
-└─ worktrees/
-   ├─ <repo>/               # only when --work-repo-url was used
-   ├─ <repo>-dev/           # developer worktree agent
-   │  └─ .aw/
-   └─ <repo>-review/        # reviewer worktree agent
-      └─ .aw/
+│  ├─ docs/
+│  ├─ roles/
+│  ├─ team.yaml
+│  ├─ home/
+│  │  ├─ coordinator/
+│  │  │  ├─ .aw/
+│  │  │  ├─ AGENTS.md
+│  │  │  └─ work -> ../../..
+│  │  ├─ developer/
+│  │  │  ├─ .aw/
+│  │  │  ├─ AGENTS.md
+│  │  │  └─ work -> ../../worktrees/dev
+│  │  └─ reviewer/
+│  │     ├─ .aw/
+│  │     ├─ AGENTS.md
+│  │     └─ work -> ../../worktrees/review
+│  └─ worktrees/
+│     ├─ dev/
+│     └─ review/
+├─ .gitignore               # bootstrap adds scoped ignores for .aw/ and worktrees/
+└─ ...
 ```
 
 Start the coordinator first:
 
 ```bash
-cd aweb-team-coord-worktrees/agents/coordinator
+cd agents/home/coordinator
 claude
 ```
 
 Then start the worktree agents when there is implementation or review work:
 
 ```bash
-cd ../../worktrees/<repo>-dev
+cd agents/home/developer
 claude
 
-cd ../<repo>-review
+cd agents/home/reviewer
 claude
 ```
 
@@ -94,7 +109,10 @@ Other maintained templates:
 
 ## Team model
 
-The coordinator is the stable, long-lived team surface for intake and routing. The developer and reviewer are local worktree agents for code changes. Code edits should happen in `worktrees/<repo>-dev/`; independent review should happen from `worktrees/<repo>-review/`.
+The coordinator is the stable, long-lived team surface for intake and routing. The developer and reviewer are local worktree agents for code changes. Code edits should happen through each agent's `work/` symlink:
+
+- `agents/home/developer/work` -> `agents/worktrees/dev`
+- `agents/home/reviewer/work` -> `agents/worktrees/review`
 
 The coordinator should:
 
@@ -106,7 +124,7 @@ The coordinator should:
 ## Structure
 
 ```text
-team.yaml                    # roles, one coordinator agent, two worktree agents
+team.yaml                    # roles and generated agent homes
 
 docs/team.md                 # shared team operating instructions
 
@@ -114,17 +132,18 @@ roles/coordinator.md         # coordinator role playbook
 roles/developer.md           # developer role playbook
 roles/reviewer.md            # reviewer role playbook
 
-agents/coordinator/AGENTS.md # coordinator workspace context
-worktrees/                   # generated git worktrees; not template source
+home/coordinator/AGENTS.md   # coordinator home template
+home/developer/AGENTS.md     # developer home template
+home/reviewer/AGENTS.md      # reviewer home template
 ```
 
 ## Included team
 
 | Surface | Default alias | Role name | Location |
 |---|---:|---:|---|
-| Coordinator | `coord` | `coordinator` | `agents/coordinator/` |
-| Developer worktree | `dev` | `developer` | `worktrees/<repo>-dev/` |
-| Reviewer worktree | `review` | `reviewer` | `worktrees/<repo>-review/` |
+| Coordinator | `coord` | `coordinator` | `agents/home/coordinator/` |
+| Developer | `dev` | `developer` | `agents/home/developer/` |
+| Reviewer | `review` | `reviewer` | `agents/home/reviewer/` |
 
 ## BYOT example
 
@@ -135,8 +154,7 @@ aw team bootstrap https://github.com/awebai/aweb-team-coord-worktrees.git \
   --aweb-url http://localhost:8000 \
   --registry http://localhost:8010 \
   --namespace example.com \
-  --team coord-worktrees \
-  --work-directory /path/to/your/repo
+  --team coord-worktrees
 ```
 
 If you do not yet have a local controller key for the namespace:

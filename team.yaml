@@ -16,10 +16,17 @@ agents:
     role_name: coordinator
     default_name: coordinator
     default_alias: coord
-worktrees:
-  - name: developer
+    home_template: home/coordinator
+    work: repo_root
+  developer:
     role_name: developer
-    alias: dev
-  - name: reviewer
+    default_name: developer
+    default_alias: dev
+    home_template: home/developer
+    work: git_worktree
+  reviewer:
     role_name: reviewer
-    alias: review
+    default_name: reviewer
+    default_alias: review
+    home_template: home/reviewer
+    work: git_worktree

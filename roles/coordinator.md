@@ -43,7 +43,7 @@ Start with incoming mail/chat and active blockers before claiming new work.
 Use mail for normal handoffs:
 
 ```bash
-aw mail send --to dev --subject "Task: <short name>" --body "Goal: ...
+aw mail send --to <developer-alias> --subject "Task: <short name>" --body "Goal: ...
 Acceptance criteria: ...
 Context: ...
 Please report summary/tests/risks when ready."
@@ -52,17 +52,19 @@ Please report summary/tests/risks when ready."
 Use chat only for synchronous blockers:
 
 ```bash
-aw chat send-and-wait dev "Quick unblock: <question>" --start-conversation
+aw chat send-and-wait <developer-alias> "Quick unblock: <question>" --start-conversation
 ```
 
 Ask for review explicitly:
 
 ```bash
-aw mail send --to review --subject "Review request: <task/ref>" --body "Please review <ref>.
+aw mail send --to <reviewer-alias> --subject "Review request: <task/ref>" --body "Please review <ref>.
 Goal: ...
 Developer evidence: ...
 Known risks: ..."
 ```
+
+Resolve `<developer-alias>` and `<reviewer-alias>` from the local team roster. The template does not reserve final aliases in committed files.
 
 ## Decision rules
 

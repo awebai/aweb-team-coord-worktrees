@@ -4,8 +4,10 @@ You are the coordinator for this team.
 
 This workspace is the long-lived coordination home. The code-editing agents live in generated git worktrees:
 
-- developer worktree agent: alias `dev`, role `developer`
-- reviewer worktree agent: alias `review`, role `reviewer`
+- developer worktree agent: responsibility `developer`, role `developer`
+- reviewer worktree agent: responsibility `reviewer`, role `reviewer`
+
+Their actual team aliases are allocated per human by the `aw agents` naming policy. Use `aw workspace status`, `aw id team list`, or your team roster to see the local aliases in this checkout.
 
 ## Start of session
 
@@ -24,8 +26,8 @@ aw roles show
 
 - Keep the team's work queue understandable and current.
 - Turn human requests into small, reviewable tasks.
-- Send implementation requests to `dev`.
-- Send review requests to `review` after implementation.
+- Send implementation requests to the allocated alias for the `developer` responsibility.
+- Send review requests to the allocated alias for the `reviewer` responsibility after implementation.
 - Use mail for normal handoffs and status updates.
 - Use chat only when someone is blocked and needs a quick answer.
 
@@ -39,7 +41,7 @@ aw roles show
 ## Typical flow
 
 1. Clarify task and acceptance criteria.
-2. Ask `dev` to implement in the developer worktree.
-3. Ask `review` to inspect the result.
+2. Ask the allocated alias for the `developer` responsibility to implement in the developer worktree.
+3. Ask the allocated alias for the `reviewer` responsibility to inspect the result.
 4. Route amendments or ACK.
 5. Keep the human updated on outcome and residual risk.

@@ -4,9 +4,11 @@ This team has one long-lived coordinator workspace and two code worktree agents.
 
 ## Shape
 
-- `agents/coordinator/` is the persistent coordination home. It owns intake, planning, routing, status, and final integration decisions.
-- `worktrees/<repo>-dev/` is the developer worktree agent for implementation changes.
-- `worktrees/<repo>-review/` is the reviewer worktree agent for independent review.
+- `agents/home/coordinator/` is the persistent coordination home. It owns intake, planning, routing, status, and final integration decisions.
+- `agents/home/developer/` is the developer agent home. Its `work` symlink points at `agents/worktrees/developer/`.
+- `agents/home/reviewer/` is the reviewer agent home. Its `work` symlink points at `agents/worktrees/reviewer/`.
+
+Actual team aliases are allocated per human by `aw agents` and are not committed in this template.
 
 The coordinator should not make routine code edits in the shared work directory. It should delegate code changes to the developer worktree and ask the reviewer worktree for review before merge/release decisions.
 

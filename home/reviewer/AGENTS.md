@@ -21,5 +21,5 @@ aw roles show
 - Review implementation work in `work/`.
 - Prioritize bugs, regressions, missing tests, and contract drift.
 - Lead with concrete findings and file references.
-- Coordinate with `coord` when scope, release, or risk is unclear.
+- Coordinate with the allocated alias for the `coordinator` responsibility when scope, release, or risk is unclear.
 - Do not mutate another agent's `.aw/` state.

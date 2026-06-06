@@ -2,11 +2,11 @@
 
 A minimal Aweb team template with one long-lived coordinator and two repo-isolated coding agents:
 
-- `coord` — coordinator role, home under `agents/home/coordinator/`, work points at the project repo root
-- `dev` — developer role, home under `agents/home/developer/`, work points at `agents/worktrees/dev/`
-- `review` — reviewer role, home under `agents/home/reviewer/`, work points at `agents/worktrees/review/`
+- `coordinator` — local coordinator responsibility, home under `agents/home/coordinator/`, work points at the project repo root
+- `developer` — local developer responsibility, home under `agents/home/developer/`, work points at `agents/worktrees/developer/`
+- `reviewer` — local reviewer responsibility, home under `agents/home/reviewer/`, work points at `agents/worktrees/reviewer/`
 
-This template is meant to be used with the `aw` CLI.
+This template is source input for the `aw agents` CLI. It does not contain final per-human aliases, DIDs, global addresses, certificates, or private keys. Those are generated per human under ignored `.aw/` state.
 
 ## Install `aw`
 
@@ -21,26 +21,37 @@ Run from the root of the work repo where the agents should operate:
 
 ```bash
 cd /path/to/your/project
-aw team bootstrap https://github.com/awebai/aweb-team-coord-worktrees.git \
-  --username <username>
+aw agents bootstrap https://github.com/awebai/aweb-team-coord-worktrees.git \
+  --username <username> \
+  --identity-prefix <your-name>
 ```
 
 Bootstrap creates an `agents/` directory inside the project repo. If `agents/` already exists, bootstrap fails before any side effects. Choose another name only when your repo already uses `agents/` for something else:
 
 ```bash
-aw team bootstrap https://github.com/awebai/aweb-team-coord-worktrees.git \
+aw agents bootstrap https://github.com/awebai/aweb-team-coord-worktrees.git \
   --username <username> \
+  --identity-prefix <your-name> \
   --agents-dir aweb-agents
 ```
 
-If you want hosted onboarding prompts, omit `--username`. Default agent names from `team.yaml` are used automatically; pass `--ask-for-agent-names` only when you want to rename them interactively.
+If you want hosted onboarding prompts, omit `--username`. The naming policy in `team.yaml` allocates per-human aliases automatically. Use `--identity-prefix` or set `AWEB_IDENTITY_PREFIX` so any global agents you add later get unique public names across humans.
+
+Preview first:
+
+```bash
+aw agents bootstrap https://github.com/awebai/aweb-team-coord-worktrees.git \
+  --username <username> \
+  --identity-prefix <your-name> \
+  --dry-run
+```
 
 ### Legacy compatibility
 
 The old out-of-repo bootstrap mode still exists for compatibility. It is selected only when you pass `--work-directory` or `--work-repo-url`:
 
 ```bash
-aw team bootstrap https://github.com/awebai/aweb-team-coord-worktrees.git \
+aw agents bootstrap https://github.com/awebai/aweb-team-coord-worktrees.git \
   --username <username> \
   --work-directory /path/to/your/repo
 ```
@@ -66,14 +77,14 @@ your-project/
 │  │  ├─ developer/
 │  │  │  ├─ .aw/
 │  │  │  ├─ AGENTS.md
-│  │  │  └─ work -> ../../worktrees/dev
+│  │  │  └─ work -> ../../worktrees/developer
 │  │  └─ reviewer/
 │  │     ├─ .aw/
 │  │     ├─ AGENTS.md
-│  │     └─ work -> ../../worktrees/review
+│  │     └─ work -> ../../worktrees/reviewer
 │  └─ worktrees/
-│     ├─ dev/
-│     └─ review/
+│     ├─ developer/
+│     └─ reviewer/
 ├─ .gitignore               # bootstrap adds scoped ignores for .aw/ and worktrees/
 └─ ...
 ```
@@ -114,20 +125,20 @@ Other maintained templates:
 
 The coordinator is the stable, long-lived team surface for intake and routing. The developer and reviewer are local worktree agents for code changes. Code edits should happen through each agent's `work/` symlink:
 
-- `agents/home/developer/work` -> `agents/worktrees/dev`
-- `agents/home/reviewer/work` -> `agents/worktrees/review`
+- `agents/home/developer/work` -> `agents/worktrees/developer`
+- `agents/home/reviewer/work` -> `agents/worktrees/reviewer`
 
 The coordinator should:
 
 1. clarify goals and acceptance criteria;
-2. route implementation work to `dev`;
-3. route review to `review`;
+2. route implementation work to the allocated alias for the `developer` responsibility;
+3. route review to the allocated alias for the `reviewer` responsibility;
 4. decide whether to request amendments, merge, or escalate.
 
 ## Structure
 
 ```text
-team.yaml                    # roles and generated agent homes
+team.yaml                    # identity-free roles, responsibilities, work bindings, and naming policy
 
 docs/team.md                 # shared team operating instructions
 
@@ -142,22 +153,50 @@ home/reviewer/AGENTS.md      # reviewer home template
 
 ## Included team
 
-| Surface | Default alias | Role name | Location |
+| Responsibility | Identity scope | Role name | Work binding |
 |---|---:|---:|---|
-| Coordinator | `coord` | `coordinator` | `agents/home/coordinator/` |
-| Developer | `dev` | `developer` | `agents/home/developer/` |
-| Reviewer | `review` | `reviewer` | `agents/home/reviewer/` |
+| Coordinator | local | `coordinator` | repo root |
+| Developer | local | `developer` | git worktree |
+| Reviewer | local | `reviewer` | git worktree |
+
+Default naming policy:
+
+- Local team aliases use the classic sequence: `alice`, `bob`, `charlie`, ...
+- Global team aliases, for agents added later with `aw agents add --global`, use `<identity-prefix>-<classic-name>`.
+- Global namespace addresses, for agents added later with `aw agents add --global`, use `<identity-prefix>-<responsibility>`.
+
+For example, if Juan bootstraps with `--identity-prefix juan`, the default coordinator/developer/reviewer aliases are allocated from the classic sequence. If Juan later adds a public global `support` responsibility, its namespace address can be `juan-support`. If Maria provisions the same committed layout later with `--identity-prefix maria`, she receives distinct DIDs, certificates, aliases, and any future global addresses without changing committed `team.yaml`.
+
+## Second human on the same repo
+
+Human A commits the generated layout:
+
+```bash
+git add agents .gitignore
+git commit -m "Add aweb agents layout"
+```
+
+Human B clones the same repo and joins the same team with an invite:
+
+```bash
+git clone <repo-url>
+cd <repo>
+aw agents provision --invite-token "$AWEB_INVITE_TOKEN" --identity-prefix maria
+```
+
+Human B's private keys, DIDs, certificates, and local `.aw/` state are generated locally under `agents/home/*/.aw/` and are ignored by git. The committed `agents/team.yaml`, roles, docs, and home templates stay identity-free.
 
 ## BYOT example
 
 Bring Your Own Team (BYOT, including your own namespace/domain controller):
 
 ```bash
-aw team bootstrap https://github.com/awebai/aweb-team-coord-worktrees.git \
+aw agents bootstrap https://github.com/awebai/aweb-team-coord-worktrees.git \
   --aweb-url http://localhost:8000 \
   --registry http://localhost:8010 \
   --namespace example.com \
-  --team coord-worktrees
+  --team coord-worktrees \
+  --identity-prefix <your-name>
 ```
 
 If you do not yet have a local controller key for the namespace:

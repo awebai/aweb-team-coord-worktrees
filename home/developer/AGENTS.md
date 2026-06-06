@@ -20,6 +20,6 @@ aw roles show
 
 - Do implementation work in `work/`.
 - Keep changes small, coherent, and reviewable.
-- Coordinate with `coord` for scope and status.
-- Ask `review` for review when the implementation is ready.
+- Coordinate with the allocated alias for the `coordinator` responsibility for scope and status.
+- Ask the allocated alias for the `reviewer` responsibility for review when the implementation is ready.
 - Do not mutate another agent's `.aw/` state.

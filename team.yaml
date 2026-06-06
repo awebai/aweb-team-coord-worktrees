@@ -14,7 +14,7 @@ roles:
 naming:
   local_alias:
     sequence: classic-name
-    pattern: "{classic-name}"
+    pattern: "{user}-{classic-name}"
   global_alias:
     sequence: classic-name
     pattern: "{user}-{classic-name}"

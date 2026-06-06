@@ -35,7 +35,7 @@ aw agents bootstrap https://github.com/awebai/aweb-team-coord-worktrees.git \
   --agents-dir aweb-agents
 ```
 
-If you want hosted onboarding prompts, omit `--username`. The naming policy in `team.yaml` allocates per-human aliases automatically. Use `--identity-prefix` or set `AWEB_IDENTITY_PREFIX` so any global agents you add later get unique public names across humans.
+If you want hosted onboarding prompts, omit `--username`. The naming policy in `team.yaml` allocates per-human aliases automatically. Use `--identity-prefix` or set `AWEB_IDENTITY_PREFIX` so each human gets distinct team aliases and any global agents you add later get unique public names.
 
 Preview first:
 
@@ -161,11 +161,11 @@ home/reviewer/AGENTS.md      # reviewer home template
 
 Default naming policy:
 
-- Local team aliases use the classic sequence: `alice`, `bob`, `charlie`, ...
+- Local team aliases use `<identity-prefix>-<classic-name>`, for example `juan-alice`, `juan-bob`, `juan-charlie`.
 - Global team aliases, for agents added later with `aw agents add --global`, use `<identity-prefix>-<classic-name>`.
 - Global namespace addresses, for agents added later with `aw agents add --global`, use `<identity-prefix>-<responsibility>`.
 
-For example, if Juan bootstraps with `--identity-prefix juan`, the default coordinator/developer/reviewer aliases are allocated from the classic sequence. If Juan later adds a public global `support` responsibility, its namespace address can be `juan-support`. If Maria provisions the same committed layout later with `--identity-prefix maria`, she receives distinct DIDs, certificates, aliases, and any future global addresses without changing committed `team.yaml`.
+For example, if Juan bootstraps with `--identity-prefix juan`, the default coordinator/developer/reviewer aliases are `juan-alice`, `juan-bob`, and `juan-charlie`. If Juan later adds a public global `support` responsibility, its namespace address can be `juan-support`. If Maria provisions the same committed layout later with `--identity-prefix maria`, she receives `maria-alice`, `maria-bob`, and `maria-charlie` with distinct DIDs, certificates, aliases, and any future global addresses without changing committed `team.yaml`.
 
 ## Second human on the same repo
 

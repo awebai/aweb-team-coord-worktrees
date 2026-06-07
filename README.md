@@ -110,7 +110,7 @@ claude
 
 If your coding agent supports aweb skills (for example through `@awebai/pi`), load these when useful:
 
-- `aweb-bootstrap` — choose the right team source, work-directory/work-repo-url shape, worktree-agent policy, and rerun safety.
+- `aweb-bootstrap` — choose the right team source, repo-local layout, worktree-agent policy, and rerun safety.
 - `aweb-coordination` — day-to-day work loop, claims, handoffs, and shared state.
 - `aweb-messaging` — mail/chat response policy and wake-up events.
 - `aweb-team-membership` — invites, active team, certificates, hosted vs BYOT, and addressability.
@@ -118,8 +118,7 @@ If your coding agent supports aweb skills (for example through `@awebai/pi`), lo
 
 Other maintained templates:
 
-- [`aweb-team-dev-review`](https://github.com/awebai/aweb-team-dev-review) — minimal developer + reviewer pair.
-- [`aweb-team-company-surfaces`](https://github.com/awebai/aweb-team-company-surfaces) — six persistent company-surface agents plus developer worktrees.
+- [`aweb-team-company-surfaces`](https://github.com/awebai/aweb-team-company-surfaces) — six persistent company-surface agents plus a developer worktree.
 
 ## Team model
 

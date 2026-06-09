@@ -1,7 +1,6 @@
 # Coordinator + developer/reviewer team operating pattern
 
-This repository replaces the old monolithic team template with a deployable
-**team operating pattern**.
+This repository is a deployable **team operating pattern**.
 
 Choose this pattern when you want:
 
@@ -33,15 +32,62 @@ This repo does **not** contain `.aw`, private keys, DIDs, certificates, aliases,
 team IDs, invite tokens, generated worktrees, or generated instance directories.
 It does not create identities or git worktrees behind your back.
 
-## Deploy into your project
-
-From this repository:
+## Quick start from an existing git repo
 
 ```bash
-./scripts/install-local.sh /path/to/your/project
+git clone https://github.com/awebai/aweb-team-coord-worktrees.git
+./aweb-team-coord-worktrees/scripts/install-local.sh /path/to/your/project
+cd /path/to/your/project
 ```
 
-That copies reviewable resources into your project:
+Keep concrete instances local:
+
+```bash
+printf '/instances/\n' >> .git/info/exclude
+```
+
+Review and commit the reusable pattern files:
+
+```bash
+git status --short
+git add souls .agents/skills team-operating-patterns/coordinator-with-dev-review
+git commit -m "Add coordinator/developer/reviewer operating pattern"
+```
+
+Create the first concrete instance, usually the coordinator:
+
+```bash
+mkdir -p instances/coordinator
+cd instances/coordinator
+ln -sfn ../../souls/coordinator/AGENTS.md AGENTS.md
+ln -sfn ../.. work
+```
+
+Use the dashboard to create or choose your team, then run the dashboard-generated
+`AWEB_API_KEY=... AWEB_URL=... aw init ...` command from
+`instances/coordinator/`. Do not commit the generated `.aw` directory.
+
+Publish shared context after the coordinator workspace is connected:
+
+```bash
+cd ../..
+aw instructions set --body-file team-operating-patterns/coordinator-with-dev-review/instructions.md
+aw roles set --bundle-file team-operating-patterns/coordinator-with-dev-review/roles-bundle.json
+aw roles show --all-roles
+```
+
+Start the coordinator from its instance directory:
+
+```bash
+cd instances/coordinator
+claude
+```
+
+See [examples/deploy.md](examples/deploy.md) for the full first-run path and
+[examples/create-instance.md](examples/create-instance.md) for developer/reviewer
+instances.
+
+## What gets copied into your project
 
 ```text
 /path/to/your/project/
@@ -52,37 +98,26 @@ That copies reviewable resources into your project:
   .agents/skills/self-maintenance/
   team-operating-patterns/coordinator-with-dev-review/
     instructions.md
+    roles/
+      coordinator.md
+      developer.md
+      reviewer.md
     roles-bundle.json
     resource-pack.yaml
 ```
 
-Then connect/publish with released aweb flows:
-
-1. Create or choose your team in the dashboard.
-2. From each workspace/instance directory, run the exact dashboard-generated
-   `AWEB_API_KEY=... AWEB_URL=... aw init ...` command for that agent.
-3. Publish shared context from the project root:
-
-   ```bash
-   aw instructions set --body-file team-operating-patterns/coordinator-with-dev-review/instructions.md
-   aw roles set --bundle-file team-operating-patterns/coordinator-with-dev-review/roles-bundle.json
-   aw roles show --all-roles
-   ```
-
-See [examples/deploy.md](examples/deploy.md) for the full flow.
-
-## Create instances explicitly
+## Create more instances explicitly
 
 Create concrete agent instances only when needed. For a developer worktree:
 
 ```bash
+cd /path/to/your/project
 git worktree add instances/dev-task-123 -b dev-task-123
 cd instances/dev-task-123
-# Run the dashboard-generated aw init/connect command for alias dev-task-123.
 ln -sfn ../../souls/developer/AGENTS.md AGENTS.md
+ln -sfn AGENTS.md CLAUDE.md  # only if using Claude Code
+# Run the dashboard-generated aw init command here for alias dev-task-123.
 ```
-
-See [examples/create-instance.md](examples/create-instance.md).
 
 ## Legacy note
 

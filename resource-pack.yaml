@@ -1,0 +1,23 @@
+schema_version: 1
+name: coordinator-with-dev-review
+summary: Coordinator, developer, and reviewer team operating pattern with explicit worktree instances.
+resources:
+  instructions: resources/instructions.md
+  roles:
+    coordinator: resources/roles/coordinator.md
+    developer: resources/roles/developer.md
+    reviewer: resources/roles/reviewer.md
+  souls:
+    coordinator: resources/souls/coordinator
+    developer: resources/souls/developer
+    reviewer: resources/souls/reviewer
+  playbooks:
+    create-instance: examples/create-instance.md
+    deploy: examples/deploy.md
+skills:
+  - skills/spawn-instance/SKILL.md
+  - skills/self-maintenance/SKILL.md
+adapters:
+  claude: adapters/claude/README.md
+  codex: adapters/codex/README.md
+  pi: adapters/pi/README.md

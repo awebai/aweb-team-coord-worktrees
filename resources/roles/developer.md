@@ -9,7 +9,7 @@ Your job is to turn a clear task into a small, tested, reviewable change. Stay f
 - Start from shared aweb state, not a private TODO list.
 - Confirm the task, acceptance criteria, active team, and your workspace identity before editing.
 - Read local instructions (`AGENTS.md`/`CLAUDE.md`) and relevant repo guidance before changing files.
-- Work in the repository attached to this workspace: your current checkout, your git worktree, or the `./work` symlink provided by bootstrap.
+- Work in the repository attached to this workspace: your current checkout or explicit git worktree.
 - Make the smallest correct change that satisfies the task.
 - Add or update tests for behavior changes whenever practical.
 - Keep changes reviewable: avoid unrelated refactors, broad formatting churn, or opportunistic fixes.

@@ -1,24 +1,28 @@
 # Claude Code adapter
 
-Claude Code commonly reads `AGENTS.md` and/or `CLAUDE.md` from the workspace.
-After creating an instance explicitly, link the chosen soul.
+Claude Code reads `CLAUDE.md` (and `AGENTS.md`) from the workspace and loads
+skills from `.claude/skills`.
 
-For a developer/reviewer worktree instance:
+At the repo root, after installing the blueprint resources:
 
 ```bash
-ln -sfn ../../souls/developer/AGENTS.md AGENTS.md
+ln -sfn .agents/skills .claude/skills
+```
+
+In each instance home, after wiring the body:
+
+```bash
 ln -sfn AGENTS.md CLAUDE.md
 ```
 
-For the coordinator instance:
+For message wake-up, install the aweb channel plugin once per machine:
 
-```bash
-mkdir -p instances/coordinator
-cd instances/coordinator
-ln -sfn ../../souls/coordinator/AGENTS.md AGENTS.md
-ln -sfn AGENTS.md CLAUDE.md
-ln -sfn ../.. work
+```text
+/plugin marketplace add awebai/claude-plugins
+/plugin install aweb-channel@awebai-marketplace
 ```
 
-Do not overwrite a project-root `AGENTS.md` just to start Claude Code; create an
-instance directory instead.
+Launch from the instance home: `cd agents/instances/<name> && claude`.
+
+Do not overwrite a project-root `AGENTS.md` or `CLAUDE.md` just to start
+Claude Code; instances have their own homes.

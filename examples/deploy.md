@@ -1,23 +1,24 @@
-# Deploy this operating pattern
+# Create a team from this blueprint
 
-This is an explicit, reviewable deployment. It does not create `.aw` state,
-identities, worktrees, or branches for you.
+This is an explicit, reviewable setup. Nothing here creates `.aw` state,
+identities, worktrees, or branches behind your back.
 
-Assumption: you already have a git repo or directory for your project.
+Assumption: you have a git repo for your project.
 
-## 0. Agent-first setup prompt
+## 0. Agent-first prompt
 
-The intended use is that you point your agent at this pattern repo:
+The intended use is that you point your agent at this blueprint:
 
-> Use `https://github.com/awebai/aweb-team-coord-worktrees` as the team operating
-> pattern for this repo. Read its `AGENTS.md` and
-> `skills/bootstrapping-a-team/SKILL.md`. Set up the coordinator first using
-> explicit aweb/dashboard init steps; do not create developer/reviewer worktrees
+> Use `https://github.com/awebai/aweb-team-coord-worktrees` as the blueprint
+> for this repo. Read its `AGENTS.md` and follow
+> `skills/create-team/SKILL.md`. Set up the coordinator first using explicit
+> aweb/dashboard init steps; do not create developer/reviewer instances
 > until I ask.
 
-The remaining steps are the procedure the applying agent should follow.
+The remaining steps are the procedure the agent follows — they work the same
+if you run them yourself.
 
-## 1. Install resources into your project
+## 1. Install the resources into your repo
 
 ```bash
 git clone https://github.com/awebai/aweb-team-coord-worktrees.git
@@ -29,94 +30,98 @@ Review the copied files:
 
 ```bash
 git status --short
-find souls team-operating-patterns/coordinator-with-dev-review .agents/skills -maxdepth 3 -type f | sort
+find agents .agents -type f | sort
 ```
 
-The install step should create identity-free pattern resources only. It should
-not create `.aw`, `instances/`, git branches, or git worktrees. An agent may use
-`scripts/install-local.sh` for this copy after confirming it will not overwrite
-existing target paths.
+The install copies identity-free team resources only — souls, roles,
+instructions, docs, skills, and the launch helper. It does not create `.aw`,
+instances, branches, or worktrees. The blueprint clone itself is disposable
+after this step.
 
-## 2. Keep future instances local
+## 2. Keep instances out of git, commit the rest
 
-Concrete instances are local workspaces, not pattern source. Ignore them locally:
+Instances carry private identity and are machine-specific. Append to your
+`.gitignore`:
 
-```bash
-printf '/instances/\n' >> .git/info/exclude
+```text
+/agents/instances/
 ```
 
-Use `.git/info/exclude` for the first setup so the helper does not silently edit
-your project `.gitignore`. If your team wants `/instances/` to be a repo-wide
-convention, you can later add it to `.gitignore` deliberately in a normal commit.
-
-## 3. Commit the reusable pattern resources
-
-Commit only reviewable, identity-free files:
+Then commit the team resources:
 
 ```bash
-git add souls .agents/skills team-operating-patterns/coordinator-with-dev-review
-git commit -m "Add coordinator/developer/reviewer operating pattern"
+git add agents .agents .gitignore
+git commit -m "Add coordinator/developer/reviewer team from blueprint"
 ```
 
-Never commit `.aw`, invite tokens, private keys, generated certificates, or local
-instance/worktree directories.
-
-## 4. Create your first concrete instance: coordinator
-
-The coordinator is a concrete workspace under `instances/`, with its instructions
-linked to the durable coordinator soul:
+For Claude Code, also link the skills dir before committing:
 
 ```bash
-mkdir -p instances/coordinator
-cd instances/coordinator
+ln -sfn .agents/skills .claude/skills
+git add .claude
+```
+
+Never commit `.aw`, invite tokens, private keys, certificates, or instance
+directories.
+
+## 3. Create the first instance: coordinator
+
+```bash
+mkdir -p agents/instances/coordinator
+cd agents/instances/coordinator
 ln -sfn ../../souls/coordinator/AGENTS.md AGENTS.md
-ln -sfn ../.. work
+ln -sfn ../../.. work
+ln -sfn AGENTS.md CLAUDE.md   # only if using Claude Code
 ```
 
-Do **not** link the coordinator soul into the project root as `AGENTS.md`; many
-repos already use that file for their own instructions.
+Do **not** link the coordinator soul into the project root as `AGENTS.md`;
+many repos already use that file for their own instructions.
 
-## 5. Connect the coordinator to aweb
+## 4. Connect the coordinator to aweb
 
-Use the dashboard for hosted setup. Create a team or choose an existing one, then
-use the dashboard's connect-agent flow for the coordinator.
-
-The dashboard will print a released-safe command shaped like:
+Use the dashboard for hosted setup: create a team or choose an existing one,
+then use the dashboard's connect-agent flow. It prints a command shaped
+like:
 
 ```bash
 AWEB_API_KEY=... AWEB_URL=... aw init ...
 ```
 
-Run that exact command from `instances/coordinator/`. Do not commit the generated
-`.aw` directory.
-
-## 6. Publish shared instructions and roles
-
-From the project root after the coordinator workspace is connected:
+Run that exact command from `agents/instances/coordinator/`. Do not commit
+the generated `.aw` directory. Verify:
 
 ```bash
-cd ../..
-aw instructions set --body-file team-operating-patterns/coordinator-with-dev-review/instructions.md
-aw roles set --bundle-file team-operating-patterns/coordinator-with-dev-review/roles-bundle.json
+aw workspace status
+aw whoami
+```
+
+## 5. Publish shared instructions and roles
+
+From the connected coordinator home:
+
+```bash
+aw instructions set --body-file ../../instructions.md
+aw roles set --bundle-file ../../roles-bundle.json
 aw roles show --all-roles
 ```
 
-The Markdown role sources are also copied for review at:
+Where the installed CLI supports it, you can publish one role at a time
+instead: `aw roles add developer --title "Developer" --playbook-file
+../../roles/developer.md`.
 
-```text
-team-operating-patterns/coordinator-with-dev-review/roles/
-```
-
-## 7. Start the coordinator
+## 6. Start the coordinator
 
 ```bash
-cd instances/coordinator
+cd agents/instances/coordinator
 claude
 ```
 
-If you use Pi, Codex, or another harness, see `adapters/` and adapt the final
+If you use Pi, Codex, or another harness, see `adapters/` and adapt the
 launch command. The identity/workspace setup stays explicit either way.
 
-## 8. Add developer or reviewer instances later
+## 7. Grow the team later
 
-Create them only when needed. See [create-instance.md](create-instance.md).
+Developer and reviewer instances are created when work needs them — by the
+running team itself, using the `spawn-instance` skill installed at
+`.agents/skills/spawn-instance/`. See
+[create-instance.md](create-instance.md).

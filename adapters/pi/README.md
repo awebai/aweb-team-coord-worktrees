@@ -1,8 +1,15 @@
 # Pi adapter
 
-Pi can run from any explicit instance directory. Create/connect the instance
-first, then launch Pi from that directory after linking the selected soul's
-`AGENTS.md`.
+Pi runs from any instance home: create/connect the instance first, then
+launch `pi` from that directory after linking the soul's `AGENTS.md`. Pi
+reads skills from `.agents/skills`.
 
-Reviewers are good Pi candidates because a different runtime can help preserve
-fresh eyes.
+For message wake-up, install the aweb extension once per machine:
+
+```bash
+pi install npm:@awebai/pi@latest
+```
+
+Reviewers are good Pi candidates because reviewing on a different runtime
+than the code's author helps preserve fresh eyes — this blueprint's reviewer
+soul declares `runtime: pi`.

@@ -1,14 +1,14 @@
 ---
-name: apply-operating-pattern
-description: Use this when a human points you at this repository and asks you to set up a coordinator/developer/reviewer aweb team in a repo or directory they own.
+name: bootstrapping-a-team
+description: Use this when a human points you at this repository and asks you to bootstrap a coordinator/developer/reviewer aweb team in a repo or directory they own.
 ---
 
-# Apply the coordinator/developer/reviewer operating pattern
+# Bootstrapping a coordinator/developer/reviewer team
 
-You are applying a **source pattern** to a human's target repo or directory. The
-source pattern gives you souls, roles, skills, playbooks, and adapter notes. You
-create concrete team instances with explicit aweb primitives and explicit
-filesystem/git steps.
+You are bootstrapping a team from a **source pattern** into a human's target repo
+or directory. The source pattern gives you souls, roles, skills, playbooks, and
+adapter notes. You create concrete team instances with explicit aweb primitives
+and explicit filesystem/git steps.
 
 ## Hard boundaries
 

@@ -11,7 +11,7 @@ The intended use is that you point your agent at this pattern repo:
 
 > Use `https://github.com/awebai/aweb-team-coord-worktrees` as the team operating
 > pattern for this repo. Read its `AGENTS.md` and
-> `skills/apply-operating-pattern/SKILL.md`. Set up the coordinator first using
+> `skills/bootstrapping-a-team/SKILL.md`. Set up the coordinator first using
 > explicit aweb/dashboard init steps; do not create developer/reviewer worktrees
 > until I ask.
 

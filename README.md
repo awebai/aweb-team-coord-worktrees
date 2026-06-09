@@ -29,7 +29,7 @@ skills/*                       Reusable procedures agents may load
 examples/deploy.md             How to install the pattern into your project
 examples/create-instance.md    How to create one concrete agent instance
 adapters/*                     Harness notes for Claude Code, Codex, and Pi
-skills/apply-operating-pattern Agent-facing procedure for applying this repo
+skills/bootstrapping-a-team Agent-facing procedure for bootstrapping a team from this repo
 scripts/install-local.sh       Explicit filesystem install helper; no .aw mutation
 scripts/build-roles-bundle.py  Builds a roles JSON bundle from Markdown roles
 ```
@@ -46,7 +46,7 @@ In your own repo or directory, tell your agent something like:
 
 > Use `https://github.com/awebai/aweb-team-coord-worktrees` as the team operating
 > pattern for this repo. Read its `AGENTS.md`, load its
-> `skills/apply-operating-pattern/SKILL.md`, and set up the coordinator first.
+> `skills/bootstrapping-a-team/SKILL.md`, and set up the coordinator first.
 > Do not create developer/reviewer worktrees until I ask.
 
 The agent should:
@@ -120,7 +120,7 @@ instances.
   souls/coordinator/
   souls/developer/
   souls/reviewer/
-  .agents/skills/apply-operating-pattern/
+  .agents/skills/bootstrapping-a-team/
   .agents/skills/spawn-instance/
   .agents/skills/self-maintenance/
   team-operating-patterns/coordinator-with-dev-review/

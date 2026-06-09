@@ -15,7 +15,7 @@ resources:
     create-instance: examples/create-instance.md
     deploy: examples/deploy.md
 skills:
-  - skills/apply-operating-pattern/SKILL.md
+  - skills/bootstrapping-a-team/SKILL.md
   - skills/spawn-instance/SKILL.md
   - skills/self-maintenance/SKILL.md
 adapters:

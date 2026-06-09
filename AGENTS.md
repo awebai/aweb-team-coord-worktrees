@@ -1,14 +1,14 @@
-# Applying this team operating pattern
+# Bootstrapping a team from this operating pattern
 
 This repository is a source pattern. It is not the user's team and it is not the
 place where identities should be created.
 
-If a human points you at this repo and asks you to set up a team in a repo or
+If a human points you at this repo and asks you to bootstrap a team in a repo or
 directory they own:
 
 1. Read `resource-pack.yaml` to discover the available souls, roles, playbooks,
    skills, and adapters.
-2. Load and follow `skills/apply-operating-pattern/SKILL.md`.
+2. Load and follow `skills/bootstrapping-a-team/SKILL.md`.
 3. Treat `resources/souls/*` as durable agent bodies that can be copied into the
    target project.
 4. Treat `skills/*` as procedures that target agents may use after the pattern is

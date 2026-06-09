@@ -3,7 +3,19 @@
 This is an explicit, reviewable deployment. It does not create `.aw` state,
 identities, worktrees, or branches for you.
 
-Assumption: you already have a git repo for your project.
+Assumption: you already have a git repo or directory for your project.
+
+## 0. Agent-first setup prompt
+
+The intended use is that you point your agent at this pattern repo:
+
+> Use `https://github.com/awebai/aweb-team-coord-worktrees` as the team operating
+> pattern for this repo. Read its `AGENTS.md` and
+> `skills/apply-operating-pattern/SKILL.md`. Set up the coordinator first using
+> explicit aweb/dashboard init steps; do not create developer/reviewer worktrees
+> until I ask.
+
+The remaining steps are the procedure the applying agent should follow.
 
 ## 1. Install resources into your project
 
@@ -21,7 +33,9 @@ find souls team-operating-patterns/coordinator-with-dev-review .agents/skills -m
 ```
 
 The install step should create identity-free pattern resources only. It should
-not create `.aw`, `instances/`, git branches, or git worktrees.
+not create `.aw`, `instances/`, git branches, or git worktrees. An agent may use
+`scripts/install-local.sh` for this copy after confirming it will not overwrite
+existing target paths.
 
 ## 2. Keep future instances local
 

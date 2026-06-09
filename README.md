@@ -1,6 +1,13 @@
 # Coordinator + developer/reviewer team operating pattern
 
-This repository is a deployable **team operating pattern**.
+This repository is a deployable **team operating pattern**. It is designed for
+the normal use case where a human points their coding agent at this repo and says:
+
+> Set up my repo with a team patterned after this sample.
+
+The applying agent reads the souls, roles, skills, and playbooks here, then uses
+explicit aweb primitives plus explicit filesystem/git steps in the human's target
+repo or directory.
 
 Choose this pattern when you want:
 
@@ -22,6 +29,7 @@ skills/*                       Reusable procedures agents may load
 examples/deploy.md             How to install the pattern into your project
 examples/create-instance.md    How to create one concrete agent instance
 adapters/*                     Harness notes for Claude Code, Codex, and Pi
+skills/apply-operating-pattern Agent-facing procedure for applying this repo
 scripts/install-local.sh       Explicit filesystem install helper; no .aw mutation
 scripts/build-roles-bundle.py  Builds a roles JSON bundle from Markdown roles
 ```
@@ -32,7 +40,25 @@ This repo does **not** contain `.aw`, private keys, DIDs, certificates, aliases,
 team IDs, invite tokens, generated worktrees, or generated instance directories.
 It does not create identities or git worktrees behind your back.
 
-## Quick start from an existing git repo
+## Agent-first use
+
+In your own repo or directory, tell your agent something like:
+
+> Use `https://github.com/awebai/aweb-team-coord-worktrees` as the team operating
+> pattern for this repo. Read its `AGENTS.md`, load its
+> `skills/apply-operating-pattern/SKILL.md`, and set up the coordinator first.
+> Do not create developer/reviewer worktrees until I ask.
+
+The agent should:
+
+1. inspect `resource-pack.yaml`;
+2. copy only identity-free souls, roles, instructions, and skills into your repo;
+3. create concrete instance directories explicitly;
+4. connect each instance with aweb primitives, usually the dashboard-generated
+   `AWEB_API_KEY=... AWEB_URL=... aw init ...` command;
+5. publish instructions and roles after a workspace is connected.
+
+If you are doing the filesystem copy yourself, run:
 
 ```bash
 git clone https://github.com/awebai/aweb-team-coord-worktrees.git
@@ -94,6 +120,7 @@ instances.
   souls/coordinator/
   souls/developer/
   souls/reviewer/
+  .agents/skills/apply-operating-pattern/
   .agents/skills/spawn-instance/
   .agents/skills/self-maintenance/
   team-operating-patterns/coordinator-with-dev-review/

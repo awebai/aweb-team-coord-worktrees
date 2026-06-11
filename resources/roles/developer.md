@@ -40,14 +40,22 @@ If this workspace is not currently editing code, start by checking mail/work bef
 6. Review your own diff before asking for review.
 7. Send a review handoff with summary, files, tests, and risks.
 
-## Review handoff
+## Review loop and done handoff
 
-When work is ready, send a concise packet to the coordinator or reviewer:
+Review happens per commit, not at the end: after every commit, follow the
+`get-code-reviewed` skill — spawn a fresh reviewer for that commit, request
+the review over chat (`send-and-leave`, non-blocking), keep working, fold
+findings in at a natural break, retire the reviewer. You are done when your
+latest commit comes back ACK with no remaining issues.
+
+Then send a concise done packet to the coordinator:
 
 ```bash
-aw mail send --to <alias> --subject "Review request: <task>" --body "Summary: ...
+aw mail send --to <coordinator-alias> --subject "Done: <task>" --body "Summary: ...
+Branch: ...
 Files: ...
 Tests: ...
+Review: latest commit ACK-clean
 Risks/follow-ups: ..."
 ```
 
@@ -57,8 +65,7 @@ Include:
 - what changed and why;
 - key files touched;
 - tests/checks run and exact result;
-- known risks, assumptions, or follow-ups;
-- whether you are blocked waiting for review.
+- known risks, assumptions, or follow-ups.
 
 ## When blocked
 

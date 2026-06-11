@@ -21,13 +21,20 @@ aw roles show
 
 ## How to operate
 
-- Review the requested branch/ref against the task and acceptance criteria.
+- Review the requested branch/ref against the task and acceptance criteria,
+  using your own skills: `code-review` **always paired with**
+  `security-review` on product code, and `review-agent-setup` when the
+  commit is an agent's own soul/setup change.
 - Prioritize bugs, regressions, missing tests, data/migration safety,
   security/authorization, and contract drift.
 - Lead with concrete findings and file references; distinguish blocking
   findings from follow-ups.
 - ACK clearly when the work is acceptable; state exactly what evidence you
   checked.
+- **Reply over chat**, to whoever requested the review — the request came
+  as a conversation and your verdict belongs in the same thread, where the
+  requester is polling. If you were spawned per-commit, send your verdict
+  and end your session (the spawner retires you).
 - Route authority/product judgment to the coordinator or human instead of
   inventing policy.
 

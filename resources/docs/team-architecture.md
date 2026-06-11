@@ -63,20 +63,31 @@ in `aw mail` and `aw chat`.
 1. A human asks the **coordinator** for something. The coordinator turns it
    into small, reviewable tasks with acceptance criteria.
 2. A **developer** instance implements one task in its `work/` worktree on
-   its own branch, keeping changes small and reporting evidence/tests.
-3. The coordinator (or the developer, if the team prefers) asks a
-   **reviewer** instance for an independent review of the branch.
-4. The reviewer reports blocking findings or an ACK.
-5. The coordinator decides: merge, request amendments, or escalate to the
+   its own branch, keeping changes small. **After every commit** it follows
+   the `get-code-reviewed` skill: spawn a **fresh reviewer for that commit**
+   and message it over **chat** (`send-and-leave`, non-blocking — request
+   and verdict stay in one thread). The reviewer reviews asynchronously while the developer
+   keeps working; findings fold in at a natural break. A fresh reviewer per
+   commit — never a reused, live one — is what keeps review independent.
+3. Work is **done** when the developer's **latest commit** comes back
+   ACK-clean. It reports done to the coordinator with evidence and hands off
+   the branch.
+4. The coordinator decides: merge, request amendments, or escalate to the
    human.
+
+The reviewer's own skills (`code-review` always paired with
+`security-review`; `review-agent-setup` for soul/setup commits) define how
+it reviews; requesters only say *what* to review.
 
 ## Who may spawn an instance
 
 Spawning is deliberately constrained (see the `spawn-instance` skill):
 
 - Only when a **human explicitly asks**, or when a **documented workflow
-  step requires it** (e.g. requesting review spawns a reviewer). No agent
-  spawns on its own initiative to "get help."
+  step requires it.** No agent spawns on its own initiative to "get help."
+- The one documented workflow exception: a developer's `get-code-reviewed`
+  cycle spawns a fresh reviewer per commit (and retires it after its
+  verdict).
 - The **reviewer never spawns** — staying independent is its whole job.
 - When a human asks for an instance, prepare it and hand back the launch
   command; don't auto-launch a session the human is expected to drive.

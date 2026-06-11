@@ -39,7 +39,7 @@ for soul in coordinator developer reviewer; do
   copy_dir "$src/resources/souls/$soul" "$dest/agents/souls/$soul"
 done
 
-for skill in spawn-instance self-maintenance; do
+for skill in spawn-instance get-code-reviewed self-maintenance; do
   copy_dir "$src/skills/$skill" "$dest/.agents/skills/$skill"
 done
 

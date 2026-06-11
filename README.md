@@ -48,6 +48,7 @@ resources/docs/                Team architecture doc, copied into your repo
 resources/bin/                 launch-session.sh helper
 skills/create-team/            The procedure your agent follows to create the team
 skills/spawn-instance/         How the team mints new instances (copied into your repo)
+skills/get-code-reviewed/      Per-commit review loop: fresh reviewer per commit (copied into your repo)
 skills/self-maintenance/       How agents grow their souls (copied into your repo)
 examples/deploy.md             First-run walk-through
 examples/create-instance.md    Creating developer/reviewer instances later
@@ -108,7 +109,7 @@ agents/
   roles-bundle.json
   instances/            <- gitignored; created as the team runs
 .agents/
-  skills/{spawn-instance,self-maintenance}/
+  skills/{spawn-instance,get-code-reviewed,self-maintenance}/
   bin/launch-session.sh
 .claude/skills -> .agents/skills    (Claude Code only)
 ```

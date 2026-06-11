@@ -75,9 +75,10 @@ agents/
   docs/team-architecture.md from resources/docs/
   roles-bundle.json         built by scripts/build-roles-bundle.py
 .agents/
-  skills/spawn-instance/    from skills/
-  skills/self-maintenance/  from skills/
-  bin/launch-session.sh     from resources/bin/
+  skills/spawn-instance/      from skills/
+  skills/get-code-reviewed/   from skills/
+  skills/self-maintenance/    from skills/
+  bin/launch-session.sh       from resources/bin/
 ```
 
 You may run `scripts/install-local.sh <target>` after checking it will not

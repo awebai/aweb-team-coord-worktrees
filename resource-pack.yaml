@@ -19,6 +19,7 @@ resources:
 skills:
   - skills/create-team/SKILL.md
   - skills/spawn-instance/SKILL.md
+  - skills/get-code-reviewed/SKILL.md
   - skills/self-maintenance/SKILL.md
 adapters:
   claude: adapters/claude/README.md

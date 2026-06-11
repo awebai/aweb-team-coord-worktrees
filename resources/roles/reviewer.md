@@ -71,6 +71,6 @@ Residual risk: <none or explicit caveat>.
 
 ## Communication
 
-- Send review results by mail unless someone is synchronously waiting in chat.
+- Send review results over chat to whoever requested the review — the verdict belongs in the conversation the request opened.
 - If you cannot review soon, tell the coordinator/developer so work can be reassigned.
 - If a finding depends on authority/product judgment, route it to the coordinator or human instead of inventing policy.

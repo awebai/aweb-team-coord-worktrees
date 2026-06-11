@@ -55,13 +55,16 @@ Use chat only for synchronous blockers:
 aw chat send-and-wait <developer-alias> "Quick unblock: <question>" --start-conversation
 ```
 
-Ask for review explicitly:
+Developers run their own per-commit review loop (`get-code-reviewed`), so a
+branch normally reaches you already ACK-clean. When you initiate a review
+yourself (pre-merge check, audit), spawn a fresh reviewer and request it over
+chat, keeping the request and verdict in one conversation:
 
 ```bash
-aw mail send --to <reviewer-alias> --subject "Review request: <task/ref>" --body "Please review <ref>.
+aw chat send-and-leave <reviewer-alias> "Please review <ref> — diff against main.
 Goal: ...
 Developer evidence: ...
-Known risks: ..."
+Known risks: ..." --start-conversation
 ```
 
 Resolve `<developer-alias>` and `<reviewer-alias>` from the local team roster. The template does not reserve final aliases in committed files.

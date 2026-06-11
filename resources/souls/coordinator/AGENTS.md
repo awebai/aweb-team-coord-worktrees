@@ -33,9 +33,15 @@ aw roles show
 
 - Keep the work queue understandable and current; turn requests into small,
   reviewable tasks with acceptance criteria.
-- Assign implementation to a developer instance; route independent review to
-  a reviewer instance before merge/release decisions.
-- Use mail for handoffs/status; chat only for quick unblocking.
+- Assign implementation to a developer instance. Developers run their own
+  per-commit review loop (`get-code-reviewed`): a branch arrives at you
+  already ACK-clean; spot-check the evidence rather than re-running review.
+- For a review you initiate yourself (a pre-merge check, an audit), spawn a
+  fresh reviewer and request it over **chat** (`send-and-leave
+  --start-conversation`) — the request and verdict are one conversation;
+  poll it with `aw chat pending`.
+- Use mail for handoffs/status; chat only for quick unblocking and review
+  requests.
 - Record durable decisions in shared coordination state or team docs.
 - Grow your soul's `docs/`, `decisions/`, and `memory/` per the
   `self-maintenance` skill; never edit this file or your role.

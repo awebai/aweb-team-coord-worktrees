@@ -36,10 +36,13 @@ Use `aw mail` for handoffs, review requests, and status updates. Use
 1. Coordinator defines a small task with acceptance criteria and sends it to
    a developer instance.
 2. The developer works in its own git worktree, keeps changes small, and
-   reports evidence/tests.
-3. Independent review comes from a reviewer instance with fresh eyes.
-4. The reviewer reports blocking findings or ACK.
-5. The coordinator decides: merge, request amendments, or escalate to the
+   **after every commit** runs the `get-code-reviewed` skill: a fresh
+   reviewer instance per commit, requested over chat (`send-and-leave`,
+   non-blocking, request and verdict in one thread), findings folded in at
+   a natural break, reviewer retired after its verdict.
+3. The developer is done when its latest commit comes back ACK-clean; it
+   reports done to the coordinator with evidence and hands off the branch.
+4. The coordinator decides: merge, request amendments, or escalate to the
    human.
 
 ## Ground rules
@@ -47,8 +50,9 @@ Use `aw mail` for handoffs, review requests, and status updates. Use
 - Keep work small and reviewable.
 - Prefer shared aweb state over private TODO lists.
 - Spawn instances only on explicit human request or a documented workflow
-  step (see the `spawn-instance` skill); retire one-shot instances when
-  their job is done.
+  step (see the `spawn-instance` skill — the developer's `get-code-reviewed`
+  per-commit reviewer is the one routine exception); retire one-shot
+  instances when their job is done.
 - Grow your soul per the `self-maintenance` skill; never edit your own
   AGENTS.md or role.
 - Do not overwrite another agent's workspace state or `.aw/` directory.

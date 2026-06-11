@@ -30,6 +30,11 @@ Do not:
 
 Prefer small, reviewable filesystem changes and explicit aweb commands.
 
+**Fast path:** `scripts/create-team.py <target>` performs this whole
+procedure in one go (prompts for counts and team source, shows every `aw`
+command it runs, prints launch commands). Prefer it for the standard setup;
+follow the manual steps when the human wants to adapt along the way.
+
 ## 1. Confirm the setup inputs
 
 Ask or infer, then repeat back before mutating files:
